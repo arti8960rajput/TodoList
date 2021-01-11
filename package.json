@@ -1,7 +1,7 @@
 {
   "name": "todo_list",
   "version": "0.1.0",
-  "homepage": "https://github.com/arti8960rajput/TodoList/",
+  "homepage": "https://arti8960rajput.github.io/TodoList",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
