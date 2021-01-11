@@ -25,6 +25,7 @@ class App extends React.Component{
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.deleteItem=this.deleteItem.bind(this);
     this.setUpdate=this.setUpdate.bind(this);
+    // this.onDragEnd=this.onDragEnd.bind(this);
     
   }
   handleInput(e){
@@ -85,24 +86,45 @@ class App extends React.Component{
     })
   }
 
+  onDragEnd = (result) => {
+    console.log(result);
+    const srcI=result.source.index;
+    const desI=result.destination?.index;
+    if(!desI){
+      return;
+    }
+    const items = this.state.items;
+    if (desI >= items.length) {
+      var k = desI - items.length + 1;
+      while (k--) {
+          items.push(undefined);
+      }
+    }
+  items.splice(desI, 0, items.splice(srcI, 1)[0]);
+    console.log("End - "+JSON.stringify(items));
+    this.setState({
+      items:items
+    })
+  }
+
   render(){
     return(
-      <div className="App">
-      <header>
-        <form id="to-do-form" onSubmit={this.addItem}>
-          <input type="text" placeholder="Enter Text"
-          value={this.state.currentItem.text}
-          onChange={this.handleInput}/>
-          <button type="submit">Add</button>
-          </form>
-      </header>
-      <ListItems items={this.state.items}
-      deleteItem={this.deleteItem}
-      setUpdate ={this.setUpdate}
-      handleCheckboxChange = {this.handleCheckboxChange}>
-      </ListItems>
-      
-      </div>
+        <div className="App">
+        <header>
+          <form id="to-do-form" onSubmit={this.addItem}>
+            <input type="text" placeholder="Enter Text"
+            value={this.state.currentItem.text}
+            onChange={this.handleInput}/>
+            <button type="submit">Add</button>
+            </form>
+        </header>
+        <ListItems items={this.state.items}
+        deleteItem={this.deleteItem}
+        setUpdate ={this.setUpdate}
+        handleCheckboxChange = {this.handleCheckboxChange}
+        onDragEnd = {this.onDragEnd}>
+        </ListItems>
+        </div>
     );
   }
 }
